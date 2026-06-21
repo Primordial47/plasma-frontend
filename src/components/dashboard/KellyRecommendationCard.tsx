@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Card, CardHeader, CardContent } from "@/components/ui/Card";
 import { Badge, PriceChange } from "@/components/ui/Badge";
+import { Skeleton } from "@/components/ui/Skeleton";
 import { cn } from "@/lib/utils";
 import { TrendingUp, TrendingDown, Target, AlertTriangle, CheckCircle, XCircle, Gauge, BarChart2, Calculator, Shield, TrendingUp as TrendingUpIcon } from "lucide-react";
 
@@ -61,7 +62,7 @@ const recommendationConfig = {
   inverse_or_skip: {
     label: "SKIP / INVERSE",
     description: "Negative EV or win rate < 50%",
-    icon: X,
+    icon: XCircle,
     color: "danger",
     bg: "bg-red-100 dark:bg-red-900/30",
     border: "border-red-500/30",
@@ -88,12 +89,10 @@ export function KellyRecommendationCard({
   if (loading) {
     return (
       <Card className={className}>
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Kelly Sizing</h3>
-            <Skeleton variant="text" width="1/3" />
-          </div>
-        </CardHeader>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Kelly Sizing</h3>
+          <Skeleton variant="text" width="1/3" />
+        </div>
         <CardContent>
           <Skeleton variant="rectangular" className="h-24 w-full" />
         </CardContent>
@@ -104,9 +103,9 @@ export function KellyRecommendationCard({
   if (!data) {
     return (
       <Card className={className}>
-        <CardHeader>
+        <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Kelly Sizing</h3>
-        </CardHeader>
+        </div>
         <CardContent>
           <p className="text-gray-500 dark:text-gray-400">No data available</p>
         </CardContent>
@@ -124,24 +123,20 @@ export function KellyRecommendationCard({
       className={cn(className)}
     >
       <Card className="relative overflow-hidden">
-        <CardHeader>
-          <div className="flex items-start justify-between">
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Kelly Sizing</h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                {data.ticker} • {data.setup} • {data.session}
-              </p>
-            </div>
-            <Badge variant={rec.color} size="md" dot={true} pulse={rec.label !== "INSUFFICIENT DATA"}>
-              {rec.label}
-            </Badge>
+        <div className="flex items-start justify-between mb-4">
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Kelly Sizing</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+              {data.ticker} • {data.setup} • {data.session}
+            </p>
           </div>
-        </CardHeader>
+          <Badge variant={rec.color} size="md" dot={true}>
+            {rec.label}
+          </Badge>
+        </div>
         
         <CardContent>
           <div className="mb-4 p-4 rounded-xl" style={{ 
-            backgroundColor: rec.bg.replace("bg-", "bg-").replace("dark:", "dark:").replace("/", " "),
-            borderColor: rec.border.replace("border-", "").replace("dark:", "dark:").replace("/", " "),
             backgroundColor: rec.bg.includes("emerald") ? "rgb(16 185 129 / 0.1)" :
               rec.bg.includes("blue") ? "rgb(59 130 246 / 0.1)" :
               rec.bg.includes("amber") ? "rgb(245 158 11 / 0.1)" :

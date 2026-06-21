@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -31,11 +30,8 @@ export function Skeleton({
     return (
       <div className="space-y-3" {...props}>
         {Array.from({ length: lines }).map((_, i) => (
-          <motion.div
+          <div
             key={i}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: i * 0.1 }}
             className={cn(
               "h-4 rounded",
               i === lines - 1 ? "w-3/4" : "w-full",
@@ -49,9 +45,7 @@ export function Skeleton({
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+    <div
       className={cn(baseStyles, variants[variant], className)}
       style={{ width, height }}
       {...props}

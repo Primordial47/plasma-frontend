@@ -20,7 +20,7 @@ export const useWalletStore = create<WalletState>()(
       disconnect: () => set({ address: null, isConnected: false, chainId: null }),
     }),
     { name: "plasma-wallet" }
-  )
+  ) as any
 );
 
 export interface SessionState {
@@ -44,12 +44,12 @@ export const useSessionStore = create<SessionState>()(
         set({ token, tier, expiresAt, wallet }),
       clearSession: () => set({ token: null, tier: null, expiresAt: null, wallet: null }),
       isValid: () => {
-        const { token, expiresAt } = get();
+        const { token, expiresAt } = get() as SessionState;
         return !!token && !!expiresAt && Date.now() < expiresAt;
       },
     }),
     { name: "plasma-session" }
-  )
+  ) as any
 );
 
 const SUBSCRIPTION_TIERS = {
@@ -87,7 +87,7 @@ export const useSubscriptionStore = create<SubscriptionState>((set) => ({
     // For now, mock
     set({ tier: "plasma_monthly", status: "active", currentPeriodEnd: Date.now() + 86400000 });
   },
-});
+}));
 
 export interface HlpSentiment {
   zScore: number | null;
@@ -109,7 +109,7 @@ export const useHlpStore = create<HlpSentiment>((set) => ({
       // Ignore errors for now
     }
   },
-});
+}));
 
 export interface Signal {
   id: string;

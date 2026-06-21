@@ -13,7 +13,17 @@ interface HlpSentimentProps {
   className?: string;
 }
 
-const signalConfig = {
+interface SignalConfig {
+  label: string;
+  description: string;
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  color: "success" | "danger" | "neutral";
+  bg: string;
+  border: string;
+  text: string;
+}
+
+const signalConfig: Record<string, SignalConfig> = {
   retail_short_extreme: {
     label: "Retail Short Extreme",
     description: "HLP heavily long → Retail heavily short → Bullish for shorts",
@@ -49,7 +59,7 @@ export function HlpSentimentCard({
   lastUpdated,
   className,
 }: HlpSentimentProps) {
-  const config = signalConfig[signal];
+  const config = signalConfig[signal] as SignalConfig;
 
   return (
     <motion.div

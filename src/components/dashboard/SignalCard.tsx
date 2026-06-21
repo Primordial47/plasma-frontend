@@ -2,9 +2,10 @@
 
 import { motion } from "framer-motion";
 import { Badge, PriceChange } from "@/components/ui/Badge";
+import { Tooltip } from "@/components/ui/Tooltip";
 import { Card, CardHeader, CardContent } from "@/components/ui/Card";
 import { cn } from "@/lib/utils";
-import { TrendingUp, TrendingDown, Target, Flag, Clock, Circle, X, Check } from "lucide-react";
+import { TrendingUp, TrendingDown, Target, Flag, Clock, Circle, X, Check, CheckCircle } from "lucide-react";
 
 export interface SignalData {
   id: string;
@@ -35,12 +36,19 @@ export function SignalCard({ signal, index = 0, onClick }: SignalCardProps) {
   const isPending = signal.outcome === "pending" || !signal.outcome;
   const isSell = signal.action === "sell";
 
-  const actionConfig = {
-    buy: { color: "success", icon: TrendingUp, label: "LONG", bg: "bg-emerald-100 dark:bg-emerald-900/30" },
-    sell: { color: "danger", icon: TrendingDown, label: "SHORT", bg: "bg-red-100 dark:bg-red-900/30" },
-  };
+interface ActionConfig {
+  color: "success" | "danger";
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  label: string;
+  bg: string;
+}
 
-  const action = actionConfig[signal.action];
+const actionConfig: Record<string, ActionConfig> = {
+  buy: { color: "success", icon: TrendingUp, label: "LONG", bg: "bg-emerald-100 dark:bg-emerald-900/30" },
+  sell: { color: "danger", icon: TrendingDown, label: "SHORT", bg: "bg-red-100 dark:bg-red-900/30" },
+};
+
+const action = actionConfig[signal.action];
   const isResolved = signal.outcome === "win" || signal.outcome === "loss";
   const pnlClass = signal.pnlR !== undefined 
     ? (signal.pnlR! >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400")
@@ -51,7 +59,6 @@ export function SignalCard({ signal, index = 0, onClick }: SignalCardProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: (index || 0) * 0.08 }}
-      onClick={onClick}
       className={cn(
         "relative group cursor-pointer transition-all duration-300",
         "bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700",

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -22,12 +22,7 @@ export function Button({
   children,
   ...props
 }: ButtonProps) {
-  const baseStyles = `
-    inline-flex items-center justify-center gap-2 font-medium transition-all duration-200
-    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
-    disabled:opacity-50 disabled:cursor-not-allowed
-    active:scale-[0.98]
-  `;
+  const baseStyles = `inline-flex items-center justify-center gap-2 font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]`;
 
   const variants = {
     primary: "bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 shadow-lg shadow-indigo-500/25",
@@ -48,8 +43,6 @@ export function Button({
       whileHover={{ scale: 1.02 }}
       disabled={disabled || loading}
       className={cn(baseStyles, variants[variant], sizes[size], className)}
-      disabled={disabled || loading}
-      {...props}
     >
       {loading ? (
         <motion.div
@@ -57,13 +50,10 @@ export function Button({
           transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
           className="w-4 h-4 border-2 border-current border-t-transparent rounded-full"
         />
-      ) : leftIcon ? (
-        <motion.span initial={{ opacity: 0, x: -4 }} animate={{ opacity: 1, x: 0 }}>{leftIcon}</motion.span>
       ) : null}
+      {leftIcon && <span className="shrink-0">{leftIcon}</span>}
       <span>{children}</span>
-      {!loading && rightIcon && (
-        <motion.span initial={{ opacity: 0, x: 4 }} animate={{ opacity: 1, x: 0 }}>{rightIcon}</motion.span>
-      )}
+      {rightIcon && <span className="shrink-0">{rightIcon}</span>}
     </motion.button>
   );
 }
@@ -90,11 +80,7 @@ export function IconButton({
     <motion.button
       whileTap={{ scale: 0.9 }}
       whileHover={{ scale: 1.1 }}
-      className={`
-        inline-flex items-center justify-center rounded-xl transition-all duration-200
-        ${sizes[size]} ${variants[variant]} ${className}
-      `}
-      {...props}
+      className={`inline-flex items-center justify-center rounded-xl transition-all duration-200 ${sizes[size]} ${variants[variant]} ${className}`}
     >
       {children}
     </motion.button>

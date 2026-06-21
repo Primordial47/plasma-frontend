@@ -31,17 +31,12 @@ export function Card({
   };
 
   return (
-    <motion.div
-      whileHover={hover ? { y: -4, boxShadow: "0 20px 40px -12px rgba(0,0,0,0.15)" } : {}}
-      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      className={`
-        rounded-2xl transition-all duration-300
-        ${variants[variant]} ${padding[variant]} ${className}
-      `}
+    <div
+      className={`rounded-2xl transition-all duration-300 ${variants[variant]} ${paddings[padding]} ${className}`}
       {...props}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }
 

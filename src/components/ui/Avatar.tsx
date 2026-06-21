@@ -20,6 +20,11 @@ const sizeClasses = {
   xl: "w-16 h-16 text-xl",
 };
 
+const shapeClasses = {
+  circle: "rounded-full",
+  square: "rounded-xl",
+};
+
 const statusSizes = {
   xs: "w-1.5 h-1.5",
   sm: "w-2 h-2",
@@ -92,34 +97,6 @@ export function Avatar({
   );
 }
 
-const sizeClasses = {
-  xs: "w-6 h-6 text-xs",
-  sm: "w-8 h-8 text-sm",
-  md: "w-10 h-10 text-base",
-  lg: "w-12 h-12 text-lg",
-  xl: "w-16 h-16 text-xl",
-};
-
-const shapeClasses = {
-  circle: "rounded-full",
-  square: "rounded-xl",
-};
-
-const statusSizes = {
-  xs: "w-1.5 h-1.5",
-  sm: "w-2 h-2",
-  md: "w-2.5 h-2.5",
-  lg: "w-3 h-3",
-  xl: "w-4 h-4",
-};
-
-const statusColors = {
-  online: "bg-emerald-500",
-  offline: "bg-gray-400",
-  busy: "bg-red-500",
-  away: "bg-amber-500",
-};
-
 export function AvatarGroup({
   avatars,
   max = 5,
@@ -144,11 +121,14 @@ export function AvatarGroup({
           alt={avatar.alt}
           size={size}
         />
-      )}
+      ))}
       {remaining > 0 && (
         <div
-          className="flex items-center justify-center bg-gray-100 dark:bg-gray-800 border-2 border-white dark:border-gray-900 font-medium text-gray-600 dark:text-gray-400"
-          style={{ ...sizeClasses[size], borderRadius: "50%" }}
+          className={cn(
+            "flex items-center justify-center bg-gray-100 dark:bg-gray-800 border-2 border-white dark:border-gray-900 font-medium text-gray-600 dark:text-gray-400",
+            sizeClasses[size]
+          )}
+          style={{ borderRadius: "50%" }}
         >
           +{remaining}
         </div>

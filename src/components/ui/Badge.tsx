@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
+interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: "default" | "success" | "warning" | "danger" | "info" | "neutral";
   size?: "sm" | "md" | "lg";
   dot?: boolean;
@@ -35,26 +35,20 @@ export function Badge({
   };
 
   return (
-    <motion.span
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      className={`
-        inline-flex items-center gap-1 font-medium rounded-full
-        ${variants[variant]} ${sizes[size]} ${className}
-      `}
+    <div
+      className={`inline-flex items-center gap-1 font-medium rounded-full ${variants[variant]} ${sizes[size]} ${className}`}
       {...props}
     >
-      {dot && (
-        <motion.span
-          className={cn("w-1.5 h-1.5 rounded-full bg-current", pulse && "animate-pulse")}
-          aria-hidden="true"
-        />
-      )}
-      <span>{children}</span>
-    </motion.span>
-  );
-}
-
+          {dot && (
+            <motion.span
+              className={cn("w-1.5 h-1.5 rounded-full bg-current", pulse && "animate-pulse")}
+              aria-hidden="true"
+            />
+          )}
+          <span>{children}</span>
+        </div>
+      );
+    }
 export function StatusIndicator({
   status,
   label,
@@ -66,15 +60,15 @@ export function StatusIndicator({
 }) {
   const statusConfig = {
     connected: { variant: "success" as const, dot: true, pulse: true, text: "Connected" },
-    disconnected: { variant: "neutral" as const, dot: true, text: "Disconnected" },
+    disconnected: { variant: "neutral" as const, dot: true, pulse: false, text: "Disconnected" },
     pending: { variant: "warning" as const, dot: true, pulse: true, text: "Connecting..." },
-    error: { variant: "danger" as const, dot: true, text: "Error" },
+    error: { variant: "danger" as const, dot: true, pulse: false, text: "Error" },
   };
 
   const config = statusConfig[status];
 
   return (
-    <Badge variant={config.variant} size={size} dot={config.dot} pulse={config.pulse}>
+    <Badge variant={config.variant} size={size} dot={config.dot} pulse={config.pulse ?? false}>
       {label || config.text}
     </Badge>
   );

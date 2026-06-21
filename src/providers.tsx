@@ -5,7 +5,6 @@ import { WagmiConfig, createConfig, http } from "wagmi";
 import { base } from "wagmi/chains";
 import { injected, metaMask, walletConnect } from "wagmi/connectors";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "@/components/ui/Toaster";
 import { ThemeProvider } from "next-themes";
 
@@ -24,7 +23,7 @@ const config = createConfig({
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 5, // 5 minutes
+      staleTime: 1000 * 60 * 5,
       refetchOnWindowFocus: false,
       retry: 1,
     },
@@ -35,11 +34,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <WagmiConfig config={config}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider chains={[base]}>
+        <RainbowKitProvider>
           <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
             {children}
             <Toaster />
-            <ReactQueryDevtools initialIsOpen={false} />
           </ThemeProvider>
         </RainbowKitProvider>
       </QueryClientProvider>
